@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vehicles</title>
+  <style>
+    th {
+      font-weight: bold;
+      background-color: black;
+      color: lightgrey;
+    }
+
+    #btn {
+      padding: .3em .8em;
+      border: 1px solid rgba(0,0,0,.1);
+      background: #58a linear-gradient(hsla(0,0%,100%,.2), transparent);
+      background-color: #6b0;
+      border-radius: .2em;
+      box-shadow: 0 .05em .25em rgba(0,0,0,.5);
+      color: white;
+      text-shadow: 0 -.05em .05em rgba(0,0,0,.5);
+      font-size: 125%;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+
+    h2 {
+      text-decoration: underline;
+    }
+
+    .vehicles-list {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Vehicles list</h1>
+
+  <div class="vehicles-list">
+    <h2>Automobiles</h2>
+    <table id="tbl_auto" border="1">
+      <tr>
+        <th>Name</th>
+        <th>Speed</th>
+        <th>Capacity</th>
+        <th>Body</th>
+      </tr>
+    </table>
+
+    <h2>Airplaines</h2>
+    <table id="tbl_air" border="1">
+      <tr>
+        <th>Name</th>
+        <th>Speed</th>
+        <th>Capacity</th>
+        <th>Wingspan</th>
+      </tr>
+    </table>
+
+    <h2>Boats</h2>
+    <table id="tbl_boat" border="1">
+      <tr>
+        <th>Name</th>
+        <th>Speed</th>
+        <th>Capacity</th>
+        <th>Max power</th>
+      </tr>
+    </table>
+  </div>
+
+  <button id="btn">UDATE</button>
+
+  <script src="dist/bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "vehiclees6",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack -d & webpack-dev-server",
+    "prod": "webpack -p"
+  },
+  "author": "Denis Shakin",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "html-webpack-plugin": "^2.26.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.1"
+  }
+}
