@@ -1,9 +1,6 @@
-import { domLoader } from "./domLoader.js";
-import { CONSTANTS } from "./constants/constants.js";
-import Boat from "./classes/Boat";
-import Auto from "./classes/Auto";
-import Airplane from "./classes/Airplane";
-
+import { domLoader } from './domLoader.js';
+import { CONSTANTS } from './constants/constants.js';
+import * as Vehicles from './classes/VehiclesClasses';
 
 window.onload = function() {
   renderListOfObj(CONSTANTS.VEHICLES_URL);
@@ -71,26 +68,26 @@ function renderListOfObj(url) {
         vehicles.forEach((item, i, arr) => {
           if (arr[i].type === 'boat') { // create an object depending on the type property
             vehiclesArrOfObj.push(
-              new Boat(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].maxpower));
+              new Vehicles.Boat(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].maxpower));
           } else if (arr[i].type === 'auto') {
             vehiclesArrOfObj.push(
-              new Auto(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].body) );
+              new Vehicles.Auto(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].body) );
           } else {
             vehiclesArrOfObj.push(
-              new Airplane(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].wingspan) );
+              new Vehicles.Airplane(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].wingspan) );
           }
         });
         
         for (let i = 0; i < vehiclesArrOfObj.length; i++) {
-          let vehicle = vehiclesArrOfObj[i].constructor; // define an object constructor
+          let vehicle = vehiclesArrOfObj[i].constructor.name; // define an object constructor
           
           switch(vehicle) { // display data in the table, depending on the object's constructor
-            case Auto:
+            case 'Auto':
               domLoader.automobilesTable.appendChild(
                 vehiclesArrOfObj[i].createHtmlNode(
                   vehiclesArrOfObj[i].body));
               break;
-            case Boat:
+            case 'Boat':
               domLoader.boatsTable.appendChild(
                 vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].maxpower));
               break;
