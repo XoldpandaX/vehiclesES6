@@ -1,5 +1,6 @@
 import { CONSTANTS } from './constants/constants.js';
 import * as Vehicles from './classes/VehiclesClasses';
+import * as helperFunctions from './functions/helperFunctions';
 
 window.onload = function() {
   renderListOfObj(CONSTANTS.URLS.VEHICLES_URL);
@@ -34,30 +35,8 @@ function deleteData(parentsObj) {
   }
 }
 
-function httpGet(url) {
-  
-  return new Promise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    
-    xhr.onload = function() {
-      if (this.status === 200) {
-        resolve(JSON.parse(this.responseText) );
-      } else {
-        let error = new Error(this.statusText);
-        error.code = this.status;
-        reject(error);
-      }
-    };
-    
-    xhr.onerror = () => reject(new Error('Network Error') );
-    
-    xhr.send();
-  });
-}
-
 function renderListOfObj(url) {
-  httpGet(url)
+  helperFunctions.httpGet(url)
     .then(
       resolve => {
         let
