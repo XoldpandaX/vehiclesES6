@@ -1,20 +1,19 @@
-import { domLoader } from './domLoader.js';
 import { CONSTANTS } from './constants/constants.js';
 import * as Vehicles from './classes/VehiclesClasses';
 
 window.onload = function() {
-  renderListOfObj(CONSTANTS.VEHICLES_URL);
+  renderListOfObj(CONSTANTS.URLS.VEHICLES_URL);
 };
 
 // *** handling of update button
-domLoader.updateBtn.addEventListener('click', function() {
+CONSTANTS.DOM.UPDATE_BTN.addEventListener('click', function() {
   deleteData({
-    automobiles: domLoader.automobilesTable,
-    airplanes: domLoader.airplanesTable,
-    boats: domLoader.boatsTable
+    automobiles: CONSTANTS.DOM.AUTOMOBILES_TABLE,
+    airplanes: CONSTANTS.DOM.AIRPLANES_TABLE,
+    boats: CONSTANTS.DOM.BOATS_TABLE
   });
   
-  renderListOfObj(CONSTANTS.VEHICLES_URL);
+  renderListOfObj(CONSTANTS.URLS.VEHICLES_URL);
 });
 
 
@@ -83,16 +82,16 @@ function renderListOfObj(url) {
           
           switch(vehicle) { // display data in the table, depending on the object's constructor
             case 'Auto':
-              domLoader.automobilesTable.appendChild(
+              CONSTANTS.DOM.AUTOMOBILES_TABLE.appendChild(
                 vehiclesArrOfObj[i].createHtmlNode(
                   vehiclesArrOfObj[i].body));
               break;
             case 'Boat':
-              domLoader.boatsTable.appendChild(
+              CONSTANTS.DOM.BOATS_TABLE.appendChild(
                 vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].maxpower));
               break;
             default:
-              domLoader.airplanesTable.appendChild(
+              CONSTANTS.DOM.AIRPLANES_TABLE.appendChild(
                 vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].wingspan));
           }
         }
