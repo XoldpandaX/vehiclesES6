@@ -43,24 +43,28 @@ function getVehicles(url) {
         
         const vehicles = resolve;
         let vehiclesArrOfObj = [];
-
-        vehicles.forEach((item, i, arr) => {
-          switch(arr[i].type) {
-            case 'boat':
-              vehiclesArrOfObj.push(new Vehicles.Boat(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].maxpower));
-              CONSTANTS.DOM.BOATS_TABLE.appendChild(vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].maxpower));
-              break;
-            case 'auto':
-              vehiclesArrOfObj.push(new Vehicles.Auto(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].body) );
-              CONSTANTS.DOM.AUTOMOBILES_TABLE.appendChild(vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].body));
-              break;
-            default:
-              vehiclesArrOfObj.push(new Vehicles.Airplane(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].wingspan) );
-              CONSTANTS.DOM.AIRPLANES_TABLE.appendChild(vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].wingspan));
-          }
-        });
+        
+        renderListOfVehicles(vehicles, vehiclesArrOfObj);
       }
     ).catch(error => console.log(error));
+}
+
+function renderListOfVehicles(data, store) {
+  data.forEach((item, i, arr) => {
+    switch(arr[i].type) {
+      case 'boat':
+        store.push(new Vehicles.Boat(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].maxpower));
+        CONSTANTS.DOM.BOATS_TABLE.appendChild(store[i].createHtmlNode(store[i].maxpower));
+        break;
+      case 'auto':
+        store.push(new Vehicles.Auto(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].body) );
+        CONSTANTS.DOM.AUTOMOBILES_TABLE.appendChild(store[i].createHtmlNode(store[i].body));
+        break;
+      default:
+        store.push(new Vehicles.Airplane(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].wingspan) );
+        CONSTANTS.DOM.AIRPLANES_TABLE.appendChild(store[i].createHtmlNode(store[i].wingspan));
+    }
+  });
 }
 
 
