@@ -3,7 +3,7 @@ import * as Vehicles from './classes/VehiclesClasses';
 import * as helperFunctions from './functions/helperFunctions';
 
 window.onload = function() {
-  renderListOfObj(CONSTANTS.URLS.VEHICLES_URL);
+  getVehicles(CONSTANTS.URLS.VEHICLES_URL);
   // getObjectByUrl(CONSTANTS.URLS.VEHICLES_URL);
 };
 
@@ -15,7 +15,7 @@ CONSTANTS.DOM.UPDATE_BTN.addEventListener('click', function() {
     boats: CONSTANTS.DOM.BOATS_TABLE
   });
   
-  renderListOfObj(CONSTANTS.URLS.VEHICLES_URL);
+  getVehicles(CONSTANTS.URLS.VEHICLES_URL);
 });
 
 function deleteData(parentsObj) {
@@ -35,16 +35,14 @@ function deleteData(parentsObj) {
   }
 }
 
-function renderListOfObj(url) {
+function getVehicles(url) {
   
   helperFunctions.httpGet(url)
-    .then(
-      resolve => {
-        let
-          vehicles = resolve,
-          vehiclesArrOfObj = [];
+    .then(resolve => {
+        localStorage.setItem('vehicles', JSON.stringify(resolve));
         
-        console.log(vehicles);
+        const vehicles = resolve;
+        let vehiclesArrOfObj = [];
 
         vehicles.forEach((item, i, arr) => {
           if (arr[i].type === 'boat') { // create an object depending on the type property
@@ -58,6 +56,7 @@ function renderListOfObj(url) {
               new Vehicles.Airplane(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].wingspan) );
           }
         });
+
 
         for (let i = 0; i < vehiclesArrOfObj.length; i++) {
           let vehicle = vehiclesArrOfObj[i].constructor.name; // define an object constructor
@@ -77,7 +76,6 @@ function renderListOfObj(url) {
                 vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].wingspan));
           }
         }
-
       }
     ).catch(error => console.log(error));
 }
