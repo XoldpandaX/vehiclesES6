@@ -4,19 +4,60 @@ import * as helperFunctions from './functions/helperFunctions';
 
 window.onload = function() {
   getVehicles(CONSTANTS.URLS.VEHICLES_URL);
-  // getObjectByUrl(CONSTANTS.URLS.VEHICLES_URL);
 };
 
 // *** handling of update button
-CONSTANTS.DOM.UPDATE_BTN.addEventListener('click', function() {
-  deleteData({
-    automobiles: CONSTANTS.DOM.AUTOMOBILES_TABLE,
-    airplanes: CONSTANTS.DOM.AIRPLANES_TABLE,
-    boats: CONSTANTS.DOM.BOATS_TABLE
-  });
-  
-  getVehicles(CONSTANTS.URLS.VEHICLES_URL);
+CONSTANTS.DOM.UPDATE_BTN.addEventListener('click', function(e) {
+  getVehicles(CONSTANTS.URLS.VEHICLES_URL, e);
 });
+
+function getVehicles(url, event=null) {
+  let vehiclesArrOfObj = [];
+  
+  helperFunctions.httpGet(url)
+    .then(resolve => {
+        if (!event) {
+          localStorage.removeItem('vehicles');
+          localStorage.setItem('vehicles', JSON.stringify(resolve));
+          
+          renderListOfVehicles(resolve, vehiclesArrOfObj);
+        } else {
+          const storageVehicles = JSON.parse(localStorage.getItem('vehicles'));
+
+          if (storageVehicles.length !== resolve.length) {
+            deleteData({
+              automobiles: CONSTANTS.DOM.AUTOMOBILES_TABLE,
+              airplanes: CONSTANTS.DOM.AIRPLANES_TABLE,
+              boats: CONSTANTS.DOM.BOATS_TABLE
+            });
+            localStorage.removeItem('vehicles');
+            localStorage.setItem('vehicles', JSON.stringify(resolve));
+            
+            renderListOfVehicles(resolve, vehiclesArrOfObj);
+
+          } else {
+            const
+              serverVehicles = resolve,
+              storageVehicles = JSON.parse(localStorage.getItem('vehicles'));
+
+            const compare = compareTwoVehicleObjects(serverVehicles, storageVehicles);
+            if (!compare) {
+              deleteData({
+                automobiles: CONSTANTS.DOM.AUTOMOBILES_TABLE,
+                airplanes: CONSTANTS.DOM.AIRPLANES_TABLE,
+                boats: CONSTANTS.DOM.BOATS_TABLE
+              });
+  
+              localStorage.removeItem('vehicles');
+              localStorage.setItem('vehicles', JSON.stringify(resolve));
+              
+              renderListOfVehicles(resolve, vehiclesArrOfObj);
+            }
+          }
+        }
+      }
+    ).catch(error => console.log(error));
+}
 
 function deleteData(parentsObj) {
   const parents = [
@@ -33,20 +74,6 @@ function deleteData(parentsObj) {
       parent.removeChild(child[j]);
     }
   }
-}
-
-function getVehicles(url) {
-  
-  helperFunctions.httpGet(url)
-    .then(resolve => {
-        localStorage.setItem('vehicles', JSON.stringify(resolve));
-        
-        const vehicles = resolve;
-        let vehiclesArrOfObj = [];
-        
-        renderListOfVehicles(vehicles, vehiclesArrOfObj);
-      }
-    ).catch(error => console.log(error));
 }
 
 function renderListOfVehicles(data, store) {
@@ -66,6 +93,19 @@ function renderListOfVehicles(data, store) {
     }
   });
 }
+
+function compareTwoVehicleObjects(firstObj, secondObj) {
+  for (let i = 0; i < firstObj.length; i++) {
+    for (let key in firstObj[i]) {
+      if (firstObj[i][key] !== secondObj[i][key]) {
+        return false;
+      }
+    }
+  }
+  
+  return true;
+}
+
 
 
 
