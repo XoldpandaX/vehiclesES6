@@ -4,6 +4,7 @@ import * as helperFunctions from './functions/helperFunctions';
 
 window.onload = function() {
   renderListOfObj(CONSTANTS.URLS.VEHICLES_URL);
+  // getObjectByUrl(CONSTANTS.URLS.VEHICLES_URL);
 };
 
 // *** handling of update button
@@ -16,7 +17,6 @@ CONSTANTS.DOM.UPDATE_BTN.addEventListener('click', function() {
   
   renderListOfObj(CONSTANTS.URLS.VEHICLES_URL);
 });
-
 
 function deleteData(parentsObj) {
   const parents = [
@@ -36,6 +36,7 @@ function deleteData(parentsObj) {
 }
 
 function renderListOfObj(url) {
+  
   helperFunctions.httpGet(url)
     .then(
       resolve => {
@@ -43,6 +44,8 @@ function renderListOfObj(url) {
           vehicles = resolve,
           vehiclesArrOfObj = [];
         
+        console.log(vehicles);
+
         vehicles.forEach((item, i, arr) => {
           if (arr[i].type === 'boat') { // create an object depending on the type property
             vehiclesArrOfObj.push(
@@ -55,10 +58,10 @@ function renderListOfObj(url) {
               new Vehicles.Airplane(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].wingspan) );
           }
         });
-        
+
         for (let i = 0; i < vehiclesArrOfObj.length; i++) {
           let vehicle = vehiclesArrOfObj[i].constructor.name; // define an object constructor
-          
+
           switch(vehicle) { // display data in the table, depending on the object's constructor
             case 'Auto':
               CONSTANTS.DOM.AUTOMOBILES_TABLE.appendChild(
@@ -74,10 +77,9 @@ function renderListOfObj(url) {
                 vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].wingspan));
           }
         }
-        
-      },
-      reject => alert('Rejected: ' + reject)
-    );
+
+      }
+    ).catch(error => console.log(error));
 }
 
 

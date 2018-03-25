@@ -1,4 +1,4 @@
-export function httpGet(url) {
+export function httpGet(url) { // get obj by url
   
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
@@ -8,14 +8,19 @@ export function httpGet(url) {
       if (this.status === 200) {
         resolve(JSON.parse(this.responseText) );
       } else {
-        let error = new Error(this.statusText);
+        const error = new Error(this.statusText);
+        
         error.code = this.status;
         reject(error);
       }
     };
     
-    xhr.onerror = () => reject(new Error('Network Error') );
+    xhr.onerror = (error) => reject(error);
     
     xhr.send();
   });
+}
+
+export function cacheObj(obj) {
+  return obj;
 }
