@@ -2,6 +2,18 @@ import { CONSTANTS } from './constants/constants.js';
 import * as Vehicles from './classes/VehiclesClasses';
 import * as helper from './functions/helperFunctions';
 
+const tableCells = {
+  automobiles: CONSTANTS.DOM.AUTOMOBILES_TABLE,
+  airplanes: CONSTANTS.DOM.AIRPLANES_TABLE,
+  boats: CONSTANTS.DOM.BOATS_TABLE
+};
+
+const vehiclesObj = {
+  automobile: Vehicles.Auto,
+  airplane: Vehicles.Airplane,
+  boat: Vehicles.Boat
+};
+
 window.onload = function() {
   getVehicles(CONSTANTS.URLS.VEHICLES_URL);
 };
@@ -18,19 +30,15 @@ function getVehicles(url, event=null) {
     .then(resolve => {
         if (!event) {
           helper.cacheData('vehicles', JSON.stringify(resolve));
-          helper.renderListOfVehicles(resolve, vehiclesArrOfObj);
+          helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj);
         } else {
           const storageVehicles = JSON.parse(localStorage.getItem('vehicles'));
 
           if (storageVehicles.length !== resolve.length) {
-            helper.deleteData({
-              automobiles: CONSTANTS.DOM.AUTOMOBILES_TABLE,
-              airplanes: CONSTANTS.DOM.AIRPLANES_TABLE,
-              boats: CONSTANTS.DOM.BOATS_TABLE
-            });
+            helper.deleteData(tableCells);
             
             helper.localStorageRefresh('vehicles', JSON.stringify(resolve));
-            helper.renderListOfVehicles(resolve, vehiclesArrOfObj);
+            helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj);
 
           } else {
             const
@@ -39,13 +47,9 @@ function getVehicles(url, event=null) {
 
             const compare = helper.compareTwoVehicleObjects(serverVehicles, storageVehicles);
             if (!compare) {
-              helper.deleteData({
-                automobiles: CONSTANTS.DOM.AUTOMOBILES_TABLE,
-                airplanes: CONSTANTS.DOM.AIRPLANES_TABLE,
-                boats: CONSTANTS.DOM.BOATS_TABLE
-              });
+              helper.deleteData(tableCells);
               helper.localStorageRefresh('vehicles', JSON.stringify(resolve));
-              helper.renderListOfVehicles(resolve, vehiclesArrOfObj);
+              helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj);
             }
           }
         }
