@@ -22,12 +22,5 @@ module.exports = {
         ]
       }
     ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Project Demo',
-      hash: true,
-      template: './index.html'
-    })
-  ]
+  }
 };
