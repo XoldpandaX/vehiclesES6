@@ -48,34 +48,24 @@ function getVehicles(url) {
           if (arr[i].type === 'boat') { // create an object depending on the type property
             vehiclesArrOfObj.push(
               new Vehicles.Boat(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].maxpower));
+  
+            CONSTANTS.DOM.BOATS_TABLE.appendChild(
+              vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].maxpower));
           } else if (arr[i].type === 'auto') {
             vehiclesArrOfObj.push(
               new Vehicles.Auto(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].body) );
+  
+            CONSTANTS.DOM.AUTOMOBILES_TABLE.appendChild(
+              vehiclesArrOfObj[i].createHtmlNode(
+                vehiclesArrOfObj[i].body));
           } else {
             vehiclesArrOfObj.push(
               new Vehicles.Airplane(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].wingspan) );
+  
+            CONSTANTS.DOM.AIRPLANES_TABLE.appendChild(
+              vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].wingspan));
           }
         });
-
-
-        for (let i = 0; i < vehiclesArrOfObj.length; i++) {
-          let vehicle = vehiclesArrOfObj[i].constructor.name; // define an object constructor
-
-          switch(vehicle) { // display data in the table, depending on the object's constructor
-            case 'Auto':
-              CONSTANTS.DOM.AUTOMOBILES_TABLE.appendChild(
-                vehiclesArrOfObj[i].createHtmlNode(
-                  vehiclesArrOfObj[i].body));
-              break;
-            case 'Boat':
-              CONSTANTS.DOM.BOATS_TABLE.appendChild(
-                vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].maxpower));
-              break;
-            default:
-              CONSTANTS.DOM.AIRPLANES_TABLE.appendChild(
-                vehiclesArrOfObj[i].createHtmlNode(vehiclesArrOfObj[i].wingspan));
-          }
-        }
       }
     ).catch(error => console.log(error));
 }
