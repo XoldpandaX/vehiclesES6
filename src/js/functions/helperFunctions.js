@@ -1,6 +1,3 @@
-import {CONSTANTS} from "../constants/constants";
-import * as Vehicles from "../classes/VehiclesClasses";
-
 export function httpGet(url) { // get obj by url
   
   return new Promise((resolve, reject) => {
@@ -62,20 +59,20 @@ export function deleteData(parentsObj) {
   }
 }
 
-export function renderListOfVehicles(data, store, vehiclesObj) {
+export function renderListOfVehicles(data, store, vehiclesObj, placeToRender) {
   data.forEach((item, i, arr) => {
     switch(arr[i].type) {
       case 'boat':
         store.push(new vehiclesObj.boat(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].maxpower));
-        CONSTANTS.DOM.BOATS_TABLE.appendChild(store[i].createHtmlNode(store[i].maxpower));
+        placeToRender.boats.appendChild(store[i].createHtmlNode(store[i].maxpower));
         break;
       case 'auto':
         store.push(new vehiclesObj.automobile(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].body) );
-        CONSTANTS.DOM.AUTOMOBILES_TABLE.appendChild(store[i].createHtmlNode(store[i].body));
+        placeToRender.automobiles.appendChild(store[i].createHtmlNode(store[i].body));
         break;
       default:
         store.push(new vehiclesObj.airplane(arr[i].name, arr[i].speed, arr[i].capacity, arr[i].wingspan) );
-        CONSTANTS.DOM.AIRPLANES_TABLE.appendChild(store[i].createHtmlNode(store[i].wingspan));
+        placeToRender.airplanes.appendChild(store[i].createHtmlNode(store[i].wingspan));
     }
   });
 }

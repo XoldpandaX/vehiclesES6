@@ -30,7 +30,7 @@ function getVehicles(url, event=null) {
     .then(resolve => {
         if (!event) {
           helper.cacheData('vehicles', JSON.stringify(resolve));
-          helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj);
+          helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj, tableCells);
         } else {
           const storageVehicles = JSON.parse(localStorage.getItem('vehicles'));
 
@@ -38,7 +38,7 @@ function getVehicles(url, event=null) {
             helper.deleteData(tableCells);
             
             helper.localStorageRefresh('vehicles', JSON.stringify(resolve));
-            helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj);
+            helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj, tableCells);
 
           } else {
             const
@@ -49,7 +49,7 @@ function getVehicles(url, event=null) {
             if (!compare) {
               helper.deleteData(tableCells);
               helper.localStorageRefresh('vehicles', JSON.stringify(resolve));
-              helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj);
+              helper.renderListOfVehicles(resolve, vehiclesArrOfObj, vehiclesObj, tableCells);
             }
           }
         }
